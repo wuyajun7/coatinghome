@@ -7,10 +7,18 @@
     <!-- 灰色1 -->
     <color name="colorGray1">#3b3b3b</color>
     <!-- 灰色2 -->
-    <color name="colorGray2">#848484</color>
+    <color name="colorGray2">#5E5E5E</color>
     <!-- 灰色3 -->
-    <color name="colorGray3">#ababab</color>
+    <color name="colorGray3">#848484</color>
     <!-- 灰色4 -->
-    <color name="colorGray4">#d4d4d4</color>
+    <color name="colorGray4">#ababab</color>
+    <!-- 灰色5 -->
+    <color name="colorGray5">#d4d4d4</color>
+    <!-- 灰色6 -->
+    <color name="colorGray6">#ededed</color>
+
+    <!-- 蓝色1-->
+    <color name="colorblue1">#0099CC</color>
+
 
 </resources>

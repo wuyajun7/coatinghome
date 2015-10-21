@@ -1,18 +1,26 @@
 package com.coatinghome.activitys.tab;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.coatinghome.R;
 
+import roboguice.RoboGuice;
+import roboguice.inject.InjectView;
+
+
 /**
  * Created by wuyajun on 15/10/19.
- * Detail:供求 界面
+ * Detail:Fragment 基类
  */
-public class FragmentMarket extends BaseFragment {
+public abstract class BaseFragment extends Fragment {
 
     //获得activity的传递的值
     @Override
@@ -24,25 +32,26 @@ public class FragmentMarket extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RoboGuice.getInjector(this.getActivity()).injectMembersWithoutViews(this);
     }
 
     //给当前的fragment绘制UI布局，可以使用线程更新UI
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_market, null);
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     //表示activity执行oncreate方法完成了的时候会调用此方法
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        RoboGuice.getInjector(this.getActivity()).injectViewMembers(getActivity());
+
+        initViews();
     }
 
-    @Override
-    public void initViews() {
-
-    }
+    public abstract void initViews();
 
     //和activity一致
     @Override

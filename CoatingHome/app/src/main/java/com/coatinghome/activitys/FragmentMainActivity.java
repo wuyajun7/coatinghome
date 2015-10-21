@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,11 @@ public class FragmentMainActivity extends RoboActivity implements OnClickListene
     private TextView mTabTextMarket;
     @InjectView(R.id.tab_my_text)
     private TextView mTabTextMy;
+
+    @InjectView(R.id.find_search_layout)
+    private LinearLayout mFindSearchLayout;
+    @InjectView(R.id.find_message)
+    private ImageView mFindMessage;
 
     /* 用于对Fragment进行管理 */
     private FragmentManager fragmentManager;
@@ -92,6 +98,8 @@ public class FragmentMainActivity extends RoboActivity implements OnClickListene
         resetTabBtn();
         // 重置文本颜色
         resetTextColor();
+        // 重置头部布局
+        resetTitleView();
         // 开启一个Fragment事务
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
@@ -100,6 +108,8 @@ public class FragmentMainActivity extends RoboActivity implements OnClickListene
             case INDEX_FIND:
                 mTabBtnFind.setImageResource(R.drawable.tab_find_down);
                 mTabTextFind.setTextColor(getResources().getColor(R.color.colorGray1));
+                mFindSearchLayout.setVisibility(View.VISIBLE);
+                mFindMessage.setVisibility(View.VISIBLE);
                 if (fragmentFind == null) {
                     fragmentFind = new FragmentFind();
                     transaction.add(R.id.id_content, fragmentFind);
@@ -129,6 +139,12 @@ public class FragmentMainActivity extends RoboActivity implements OnClickListene
                 break;
         }
         transaction.commit();
+    }
+
+    /* 重置头部布局 */
+    private void resetTitleView() {
+        mFindSearchLayout.setVisibility(View.GONE);
+        mFindMessage.setVisibility(View.GONE);
     }
 
     /* 清除掉所有的btn选中状态 */
