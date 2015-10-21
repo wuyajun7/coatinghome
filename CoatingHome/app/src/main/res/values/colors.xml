@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 白色 -->
+    <color name="colorWhite">#ffffff</color>
+    <!-- 透明白色 -->
+    <color name="transparentWhite">#55ffffff</color>
+    <!-- 灰色1 -->
+    <color name="colorGray1">#3b3b3b</color>
+    <!-- 灰色2 -->
+    <color name="colorGray2">#848484</color>
+    <!-- 灰色3 -->
+    <color name="colorGray3">#ababab</color>
+    <!-- 灰色4 -->
+    <color name="colorGray4">#d4d4d4</color>
+
+</resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_main_tab_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/transparentWhite">
+
+    <View
+        android:id="@+id/space_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignTop="@+id/tab_layout"
+        android:background="@color/colorGray4" />
+
+    <LinearLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/tab_hight">
+
+        <LinearLayout
+            android:id="@+id/tab_find_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/tab_find_btn"
+                android:layout_width="@dimen/tab_img_wh"
+                android:layout_height="@dimen/tab_img_wh"
+                android:background="#0000"
+                android:clickable="false"
+                android:scaleType="fitXY"
+                android:src="@drawable/tab_find_down" />
+
+            <TextView
+                android:id="@+id/tab_find_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_find"
+                android:textColor="@color/colorGray1"
+                android:textSize="@dimen/tab_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_market_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/tab_market_btn"
+                android:layout_width="@dimen/tab_img_wh"
+                android:layout_height="@dimen/tab_img_wh"
+                android:background="#0000"
+                android:clickable="false"
+                android:scaleType="fitXY"
+                android:src="@drawable/tab_market_up" />
+
+            <TextView
+                android:id="@+id/tab_market_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_market"
+                android:textColor="@color/colorGray1"
+                android:textSize="@dimen/tab_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_my_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/tab_my_btn"
+                android:layout_width="@dimen/tab_img_wh"
+                android:layout_height="@dimen/tab_img_wh"
+                android:background="#0000"
+                android:clickable="false"
+                android:scaleType="fitXY"
+                android:src="@drawable/tab_my_up" />
+
+            <TextView
+                android:id="@+id/tab_my_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_my"
+                android:textColor="@color/colorGray1"
+                android:textSize="@dimen/tab_text_size" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
