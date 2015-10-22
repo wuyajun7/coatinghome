@@ -1,18 +1,23 @@
 package com.coatinghome.activitys.tab;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.coatinghome.R;
+import com.coatinghome.adapters.TabFindAdapter;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import roboguice.RoboGuice;
+import java.util.ArrayList;
+
 import roboguice.inject.InjectView;
 
 
@@ -22,6 +27,12 @@ import roboguice.inject.InjectView;
  */
 public class FragmentFind extends BaseFragment {
 
+    @InjectView(R.id.find_list_view)
+    private PullToRefreshListView mPullToRefreshListView;
+
+    private TabFindAdapter mTabFindAdapter;
+
+    private Context mContext;
 
     //获得activity的传递的值
     @Override
@@ -33,6 +44,7 @@ public class FragmentFind extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getActivity();
     }
 
     //给当前的fragment绘制UI布局，可以使用线程更新UI
@@ -52,6 +64,50 @@ public class FragmentFind extends BaseFragment {
 
     @Override
     public void initViews() {
+
+        mTabFindAdapter = new TabFindAdapter(mContext,
+                new ArrayList<String>(),
+                -1);
+
+        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                refreshView.getLoadingLayoutProxy().setPullLabel("下拉可以刷新");
+                refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在刷新数据中");
+                refreshView.getLoadingLayoutProxy().setReleaseLabel("松开立即刷新");
+
+                requestFindData();
+
+//                //下拉刷新时，如果banner数据为空，则进行数据拉取，否则不刷新数据
+//                if (nnBanners.size() == 0) {
+//                    requestBannerInfo();
+//                }
+
+            }
+        });
+        ListView listView = mPullToRefreshListView.getRefreshableView();
+
+        TextView emptyText = new TextView(mContext);
+        emptyText.setGravity(Gravity.CENTER);
+        emptyText.setText("暂时没有数据");
+        emptyText.setTextColor(mContext.getResources().getColor(R.color.colorGray1));
+
+        listView.addHeaderView(emptyText);
+        listView.setAdapter(mTabFindAdapter);
+
+        requestFindData();
+
+    }
+
+    private void requestFindData() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mTabFindAdapter.notifyDataSetChanged();
+                mPullToRefreshListView.onRefreshComplete();
+            }
+        }, 2000);
     }
 
 
