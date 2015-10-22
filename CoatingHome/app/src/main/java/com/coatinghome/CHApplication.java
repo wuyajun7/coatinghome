@@ -21,9 +21,19 @@ public class CHApplication extends Application {
 
         //(严格模式):监视APP相关的运行情况 - 发布应用时关闭此处
         if (PropertiesConfig.getInstance(this).isDeveloper() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            //线程检测
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyDeath().build());
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .penaltyDialog()
+                    .detectNetwork()
+                    .penaltyLog()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
         }
 
     }

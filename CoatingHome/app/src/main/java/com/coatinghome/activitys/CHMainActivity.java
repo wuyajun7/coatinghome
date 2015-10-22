@@ -18,7 +18,7 @@ import com.coatinghome.activitys.tab.FragmentMy;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
-public class FragmentMainActivity extends RoboActivity implements OnClickListener {
+public class CHMainActivity extends RoboActivity implements OnClickListener {
 
     private final int INDEX_FIND = 0;
     private final int INDEX_MARKET = 1;

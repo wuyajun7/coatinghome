@@ -4,14 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- android:layout_marginTop="-1dp" 去掉顶部空白间隔 -->
+    <!-- android:overScrollMode="never" 去掉魅族手机下拉悬停 - 会显示下拉图标 -->
     <com.handmark.pulltorefresh.library.PullToRefreshListView xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/find_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginTop="-1dp"
         android:background="#F0F0F0"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
         android:scrollbars="none"
         ptr:ptrHeaderBackground="@drawable/layout_head_bg"
         ptr:ptrHeaderTextColor="@color/colorGray1" />

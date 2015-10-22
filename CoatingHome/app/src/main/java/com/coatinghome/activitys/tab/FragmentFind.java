@@ -2,24 +2,32 @@ package com.coatinghome.activitys.tab;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.coatinghome.R;
+import com.coatinghome.activitys.CHWebViewActivity;
 import com.coatinghome.adapters.TabFindAdapter;
+import com.coatinghome.customviews.NNTextSliderView;
+import com.coatinghome.models.CHBanner;
+import com.coatinghome.providers.CHContrat;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import roboguice.inject.InjectView;
-
 
 /**
  * Created by wuyajun on 15/10/19.
@@ -32,7 +40,13 @@ public class FragmentFind extends BaseFragment {
 
     private TabFindAdapter mTabFindAdapter;
 
+    private static final String BANNER_JUMP_URL = "banner_jump_url";
+    private static final String BANNER_TITLE = "banner_title";
     private Context mContext;
+
+    private SliderLayout mBanner = null;
+    private View bannerLayout = null;
+    private LayoutInflater mLayoutInflater = null;
 
     //获得activity的传递的值
     @Override
@@ -86,18 +100,93 @@ public class FragmentFind extends BaseFragment {
 
             }
         });
+
         ListView listView = mPullToRefreshListView.getRefreshableView();
-
-        TextView emptyText = new TextView(mContext);
-        emptyText.setGravity(Gravity.CENTER);
-        emptyText.setText("暂时没有数据");
-        emptyText.setTextColor(mContext.getResources().getColor(R.color.colorGray1));
-
-        listView.addHeaderView(emptyText);
+        listView.addHeaderView(getBannerView());
         listView.setAdapter(mTabFindAdapter);
 
         requestFindData();
 
+    }
+
+    /* 加载 banner view  */
+    private View getBannerView() {
+        if (mLayoutInflater == null) {
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        bannerLayout = mLayoutInflater.inflate(R.layout.view_pub_banner, null);
+        mBanner = (SliderLayout) bannerLayout.findViewById(R.id.pub_slider);
+        mBanner.setPresetTransformer(SliderLayout.Transformer.Default);//滚动方式
+        mBanner.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);//指示器位置
+        mBanner.setCustomAnimation(null);
+        LinearLayout.LayoutParams wh = getLayoutParams(1, 3);//设置banner 宽高比
+        mBanner.setLayoutParams(wh);
+
+        requestBannerInfo();
+
+        return bannerLayout;
+    }
+
+    private void requestBannerInfo() {
+        List<CHBanner> response = new ArrayList<>();
+
+        CHBanner nnBanner1 = new CHBanner();
+        nnBanner1.id = 1;
+        nnBanner1.image_url = "http://pic29.nipic.com/20130530/10893559_221900163000_2.jpg";
+        nnBanner1.title = "xxx";
+        nnBanner1.jump_url = "http://www.baidu.com";
+
+        response.add(nnBanner1);
+        response.add(nnBanner1);
+
+        setBannerData(response);
+    }
+
+    /**
+     * 设置view 宽高比
+     *
+     * @param w 宽比例
+     * @param h 高比例
+     * @return LayoutParams
+     */
+    public LinearLayout.LayoutParams getLayoutParams(int w, int h) {
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        return new LinearLayout.LayoutParams(width, width * w / h);
+    }
+
+    /* 设置banner数据 */
+    private void setBannerData(List<CHBanner> response) {
+        if (response != null && (response).size() != 0) {//有数据则加载正常数据，无数据加载默认数据
+            for (CHBanner nnBanner : response) {
+                NNTextSliderView textSliderView = new NNTextSliderView(mContext);
+                textSliderView
+                        .description("")
+                        .image(nnBanner.image_url)
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(new NNOnSliderClickListener());
+
+                textSliderView.bundle(new Bundle());
+                textSliderView.getBundle().putString(BANNER_TITLE, nnBanner.title);
+                textSliderView.getBundle().putString(BANNER_JUMP_URL, nnBanner.jump_url);
+
+                mBanner.addSlider(textSliderView);
+            }
+        }
+    }
+
+    /* banner item 点击事件 */
+    private class NNOnSliderClickListener implements BaseSliderView.OnSliderClickListener {
+
+        @Override
+        public void onSliderClick(BaseSliderView baseSliderView) {
+            Bundle bundle = baseSliderView.getBundle();
+            Intent intent = new Intent(mContext, CHWebViewActivity.class);
+            intent.putExtra(CHContrat.WEB_TITLE_TEXT, bundle.getString(BANNER_TITLE));
+            intent.putExtra(CHContrat.WEB_URL_PATH, bundle.getString(BANNER_JUMP_URL));
+            startActivity(intent);
+        }
     }
 
     private void requestFindData() {

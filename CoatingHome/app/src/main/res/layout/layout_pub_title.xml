@@ -15,12 +15,12 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="返回"
-                android:textColor="@color/colorGray1"
-                android:textSize="@dimen/pub_title_text_size"
+            <ImageView
+                android:id="@+id/title_back"
+                android:layout_width="@dimen/pub_title_height"
+                android:layout_height="@dimen/pub_title_height"
+                android:padding="15dp"
+                android:src="@drawable/icon_back"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -35,7 +35,7 @@
                 android:id="@+id/public_center_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGray1"
+                android:textColor="@color/colorWhite"
                 android:textSize="@dimen/pub_title_text_size"
                 android:visibility="gone" />
 
@@ -75,24 +75,22 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="分享"
-                android:textColor="@color/colorGray1"
-                android:textSize="@dimen/pub_title_text_size"
-                android:visibility="gone" />
-
             <ImageView
                 android:id="@+id/find_message"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="@dimen/pub_title_height"
+                android:layout_height="@dimen/pub_title_height"
+                android:padding="15dp"
                 android:src="@drawable/icon_message"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/title_progress"
+                android:layout_width="@dimen/pub_title_height"
+                android:layout_height="@dimen/pub_title_height"
+                android:padding="15dp"
                 android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>
-
-    <include layout="@layout/view_pub_line" />
 
 </LinearLayout>
