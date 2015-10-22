@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.coatinghome.R;
 import com.coatinghome.activitys.CHWebViewActivity;
@@ -18,9 +21,9 @@ import com.coatinghome.adapters.TabFindAdapter;
 import com.coatinghome.customviews.NNTextSliderView;
 import com.coatinghome.models.CHBanner;
 import com.coatinghome.providers.CHContrat;
+import com.coatinghome.utils.DisplayUtil;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -42,11 +45,17 @@ public class FragmentFind extends BaseFragment {
 
     private static final String BANNER_JUMP_URL = "banner_jump_url";
     private static final String BANNER_TITLE = "banner_title";
-    private Context mContext;
 
-    private SliderLayout mBanner = null;
-    private View bannerLayout = null;
-    private LayoutInflater mLayoutInflater = null;
+    private Context mContext;
+    private LayoutInflater mLayoutInflater;
+    private int width;
+
+    private SliderLayout mBanner;
+    private View bannerLayout;
+    private List<CHBanner> chBanners;//banner 数据
+
+    private View listItem;
+    private View listItemTitle;
 
     //获得activity的传递的值
     @Override
@@ -79,9 +88,11 @@ public class FragmentFind extends BaseFragment {
     @Override
     public void initViews() {
 
-        mTabFindAdapter = new TabFindAdapter(mContext,
-                new ArrayList<String>(),
-                -1);
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+
+        mTabFindAdapter = new TabFindAdapter(mContext, new ArrayList<String>(), -1);
 
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -93,23 +104,28 @@ public class FragmentFind extends BaseFragment {
 
                 requestFindData();
 
-//                //下拉刷新时，如果banner数据为空，则进行数据拉取，否则不刷新数据
-//                if (nnBanners.size() == 0) {
-//                    requestBannerInfo();
-//                }
+                //下拉刷新时，如果banner数据为空，则进行数据拉取，否则不刷新数据
+                if (chBanners.size() == 0) {
+                    requestBannerInfo();
+                }
 
             }
         });
 
         ListView listView = mPullToRefreshListView.getRefreshableView();
         listView.addHeaderView(getBannerView());
+        listView.addHeaderView(getListItemTitle("热门推荐"));
+        listView.addHeaderView(getListItemView());
+        listView.addHeaderView(getListItemTitle("好品质"));
+        listView.addHeaderView(getListItemView());
+
         listView.setAdapter(mTabFindAdapter);
 
         requestFindData();
 
     }
 
-    /* 加载 banner view  */
+    /* --------------------------------BANNER START--------------------------------- */
     private View getBannerView() {
         if (mLayoutInflater == null) {
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -128,18 +144,19 @@ public class FragmentFind extends BaseFragment {
     }
 
     private void requestBannerInfo() {
-        List<CHBanner> response = new ArrayList<>();
 
-        CHBanner nnBanner1 = new CHBanner();
-        nnBanner1.id = 1;
-        nnBanner1.image_url = "http://pic29.nipic.com/20130530/10893559_221900163000_2.jpg";
-        nnBanner1.title = "xxx";
-        nnBanner1.jump_url = "http://www.baidu.com";
+        CHBanner chBanner = new CHBanner();
+        chBanner.id = 1;
+        chBanner.image_url = "http://pic29.nipic.com/20130530/10893559_221900163000_2.jpg";
+        chBanner.title = "xxx";
+        chBanner.jump_url = "http://www.baidu.com";
 
-        response.add(nnBanner1);
-        response.add(nnBanner1);
+        chBanners = new ArrayList<>();
+        chBanners.add(chBanner);
+        chBanners.add(chBanner);
+        chBanners.add(chBanner);
 
-        setBannerData(response);
+        setBannerData(chBanners);
     }
 
     /**
@@ -150,9 +167,6 @@ public class FragmentFind extends BaseFragment {
      * @return LayoutParams
      */
     public LinearLayout.LayoutParams getLayoutParams(int w, int h) {
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
         return new LinearLayout.LayoutParams(width, width * w / h);
     }
 
@@ -188,6 +202,39 @@ public class FragmentFind extends BaseFragment {
             startActivity(intent);
         }
     }
+    /* --------------------------------BANNER END--------------------------------- */
+
+    /* --------------------------------LIST START--------------------------------- */
+    private View getListItemView() {
+        if (mLayoutInflater == null) {
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        listItem = mLayoutInflater.inflate(R.layout.view_find_item, null);
+
+        LinearLayout find_item = (LinearLayout) listItem.findViewById(R.id.find_item);
+        AbsListView.LayoutParams layoutParam = new AbsListView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                (width / 9) * 4);
+        find_item.setLayoutParams(layoutParam);
+
+        return listItem;
+    }
+    /* --------------------------------LIST END--------------------------------- */
+
+    /* --------------------------------LIST TITLE START--------------------------------- */
+    private View getListItemTitle(String title) {
+
+        if (mLayoutInflater == null) {
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        listItemTitle = mLayoutInflater.inflate(R.layout.view_find_item_title, null);
+        TextView textView = (TextView) listItemTitle.findViewById(R.id.find_item_title);
+        textView.setText(title);
+
+        return listItemTitle;
+    }
+    /* --------------------------------LIST TITLE END--------------------------------- */
+
 
     private void requestFindData() {
         new Handler().postDelayed(new Runnable() {

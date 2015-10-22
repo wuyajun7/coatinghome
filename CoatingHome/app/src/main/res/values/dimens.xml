@@ -12,5 +12,6 @@
     <dimen name="pub_title_text_size">15sp</dimen>
 
     <dimen name="pub_text_size1">16sp</dimen>
+    <dimen name="pub_text_size2">13sp</dimen>
 
 </resources>

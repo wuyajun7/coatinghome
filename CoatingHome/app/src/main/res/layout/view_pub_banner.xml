@@ -8,6 +8,6 @@
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/pub_slider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
