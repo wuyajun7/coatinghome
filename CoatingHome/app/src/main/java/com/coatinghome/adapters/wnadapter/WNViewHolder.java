@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 /**
  * Created by wuyajun on 15/6/19.
- * 万能适配器 - ViewHolder
+ * Detail:万能适配器 - ViewHolder
  */
 public class WNViewHolder {
 

@@ -6,7 +6,7 @@ import roboguice.activity.RoboActivity;
 
 /**
  * Created by wuyajun on 15/10/22.
- * Detail:
+ * Detail: Activity 基类
  */
 public abstract class CHBaseActivity extends RoboActivity {
 

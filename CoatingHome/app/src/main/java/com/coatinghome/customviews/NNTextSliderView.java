@@ -15,7 +15,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 
 /**
  * Created by wuyajun on 15/6/19.
- * 重构广告banner 设置文字界面布局背景为透明色，擦，非得强暴你
+ * Detail:重构广告banner 设置文字界面布局背景为透明色，擦，非得强暴你
  */
 public class NNTextSliderView extends BaseSliderView {
 
@@ -25,9 +25,9 @@ public class NNTextSliderView extends BaseSliderView {
 
     @Override
     public View getView() {
-        View v = LayoutInflater.from(this.getContext()).inflate(R.layout.render_type_text, (ViewGroup)null);
-        ImageView target = (ImageView)v.findViewById(R.id.daimajia_slider_image);
-        TextView description = (TextView)v.findViewById(R.id.description);
+        View v = LayoutInflater.from(this.getContext()).inflate(R.layout.render_type_text, (ViewGroup) null);
+        ImageView target = (ImageView) v.findViewById(R.id.daimajia_slider_image);
+        TextView description = (TextView) v.findViewById(R.id.description);
         LinearLayout layout = (LinearLayout) v.findViewById(R.id.description_layout);
         layout.setBackgroundColor(Color.TRANSPARENT);
         description.setText(this.getDescription());

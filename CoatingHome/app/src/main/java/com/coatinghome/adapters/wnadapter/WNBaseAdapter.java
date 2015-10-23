@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Created by wuyajun on 15/6/19.
- * 万能适配器
+ * Detail:万能适配器
  */
 public abstract class WNBaseAdapter<T extends Object> extends BaseAdapter {
 

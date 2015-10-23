@@ -3,10 +3,10 @@
     android:id="@+id/find_item_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="2dp"
+    android:paddingBottom="3dp"
     android:paddingLeft="10dp"
-    android:paddingTop="2dp"
+    android:paddingTop="3dp"
     android:textColor="@color/colorGray1"
-    android:textSize="@dimen/pub_text_size2">
+    android:textSize="17sp">
 
 </TextView>

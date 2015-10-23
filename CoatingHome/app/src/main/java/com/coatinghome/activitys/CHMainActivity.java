@@ -18,6 +18,10 @@ import com.coatinghome.activitys.tab.FragmentMy;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
+/**
+ * Created by wuyajun on 15/10/22.
+ * Detail: 主页
+ */
 public class CHMainActivity extends RoboActivity implements OnClickListener {
 
     private final int INDEX_FIND = 0;

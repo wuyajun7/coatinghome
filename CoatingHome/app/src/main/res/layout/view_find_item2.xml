@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_pub_line2" />
+
+    <LinearLayout
+        android:id="@+id/find_item2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/find_item2_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="5"
+            android:background="@color/colorGray6"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/find_item2_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xx"
+                    android:textColor="@color/colorGray1"
+                    android:textSize="@dimen/pub_find_item_text1" />
+
+                <TextView
+                    android:id="@+id/find_item2_content1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xxxxx"
+                    android:textColor="@color/colorGray2"
+                    android:textSize="@dimen/pub_find_item_text2" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/find_item2_image1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/tab_market_down" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/find_item2_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="5"
+            android:background="@color/colorGray6"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/find_item2_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xx"
+                    android:textColor="@color/colorGray1"
+                    android:textSize="@dimen/pub_find_item_text1" />
+
+                <TextView
+                    android:id="@+id/find_item2_content2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xxxxx"
+                    android:textColor="@color/colorGray2"
+                    android:textSize="@dimen/pub_find_item_text2" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/find_item2_image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/tab_market_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/find_item2_layout3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="5"
+            android:background="@color/colorGray6"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/find_item2_title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xx"
+                    android:textColor="@color/colorGray1"
+                    android:textSize="@dimen/pub_find_item_text1" />
+
+                <TextView
+                    android:id="@+id/find_item2_content3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xxxxx"
+                    android:textColor="@color/colorGray2"
+                    android:textSize="@dimen/pub_find_item_text2" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/find_item2_image3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/tab_market_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/find_item2_layout4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="5"
+            android:background="@color/colorGray6"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/find_item2_title4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xx"
+                    android:textColor="@color/colorGray1"
+                    android:textSize="@dimen/pub_find_item_text1" />
+
+                <TextView
+                    android:id="@+id/find_item2_content4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="xxxxx"
+                    android:textColor="@color/colorGray2"
+                    android:textSize="@dimen/pub_find_item_text2" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/find_item2_image4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/tab_market_down" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/view_pub_line2" />
+</LinearLayout>

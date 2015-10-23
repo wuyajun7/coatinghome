@@ -13,12 +13,22 @@
     <!-- 灰色4 -->
     <color name="colorGray4">#ababab</color>
     <!-- 灰色5 -->
-    <color name="colorGray5">#d4d4d4</color>
+    <color name="colorGray5">#d5d5d5</color>
     <!-- 灰色6 -->
-    <color name="colorGray6">#ededed</color>
+    <color name="colorGray6">#f7f7f7</color>
+    <!-- 灰色7 -->
+    <color name="colorGray7">#f0f0f0</color>
 
     <!-- 蓝色1-->
     <color name="colorblue1">#0099CC</color>
 
+    <!-- 彩色 -->
+    <color name="colours1">#00AEAE</color>
+    <color name="colours2">#02C874</color>
+    <color name="colours3">#FF8000</color>
+    <color name="colours4">#F75000</color>
+    <color name="colours5">#0072E3</color>
+    <color name="colours6">#FF0080</color>
+    <color name="colours7">#E800E8</color>
 
 </resources>
