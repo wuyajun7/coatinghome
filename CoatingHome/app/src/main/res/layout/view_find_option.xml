@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.coatinghome.customviews.CHNoScrollGridView
+        android:id="@+id/find_option_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:gravity="center_horizontal"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="4" />
+
+    <include layout="@layout/view_pub_line2" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+</LinearLayout>

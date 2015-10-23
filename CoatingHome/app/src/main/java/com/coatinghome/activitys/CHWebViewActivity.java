@@ -21,9 +21,9 @@ import roboguice.inject.InjectView;
 
 /**
  * Created by wuyajun on 15/6/23.
- * <p/>
+ * <p>
  * 公共Web加载界面
- * <p/>
+ * <p>
  * mCHWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
  * //LOAD_CACHE_ONLY:  不使用网络，只读取本地缓存数据
  * //LOAD_DEFAULT:  根据cache-control决定是否从网络上取数据。
@@ -31,7 +31,7 @@ import roboguice.inject.InjectView;
  * //LOAD_NO_CACHE: 不使用缓存，只从网络获取数据.
  * //LOAD_CACHE_ELSE_NETWORK，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。
  */
-public class CHWebViewActivity extends CHBaseActivity implements OnClickListener {
+public class CHWebViewActivity extends CHBaseActivity {
 
     @InjectView(R.id.title_back)
     private ImageView mTitleBack;
@@ -50,16 +50,15 @@ public class CHWebViewActivity extends CHBaseActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
-        title = getIntent().getStringExtra(CHContrat.WEB_TITLE_TEXT);
+        title = getIntent().getStringExtra(CHContrat.ACTIVITY_TITLE_TEXT);
         webUrl = getIntent().getStringExtra(CHContrat.WEB_URL_PATH);
 
         initViews();
     }
 
     public void initViews() {
-        mTitleBack.setVisibility(View.VISIBLE);
+        CHContrat.showView(mTitleBack, mCenterTitle);
         mTitleBack.setOnClickListener(this);
-        mCenterTitle.setVisibility(View.VISIBLE);
         mCenterTitle.setText(title);
 
         mWebView = (WebView) findViewById(R.id.webview);
@@ -72,10 +71,10 @@ public class CHWebViewActivity extends CHBaseActivity implements OnClickListener
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100) {
                     if (mTitleProgress.getVisibility() != View.VISIBLE)
-                        mTitleProgress.setVisibility(View.VISIBLE);
+                        CHContrat.showView(mTitleProgress);
                 } else {
                     if (mTitleProgress.getVisibility() != View.GONE)
-                        mTitleProgress.setVisibility(View.GONE);
+                        CHContrat.hideView(mTitleProgress);
                 }
             }
         });
@@ -130,7 +129,7 @@ public class CHWebViewActivity extends CHBaseActivity implements OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_back:
-                CHWebViewActivity.this.finish();
+                finishActivity();
                 break;
         }
     }

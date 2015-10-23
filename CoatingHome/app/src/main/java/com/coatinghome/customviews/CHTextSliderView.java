@@ -17,9 +17,9 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
  * Created by wuyajun on 15/6/19.
  * Detail:重构广告banner 设置文字界面布局背景为透明色，擦，非得强暴你
  */
-public class NNTextSliderView extends BaseSliderView {
+public class CHTextSliderView extends BaseSliderView {
 
-    public NNTextSliderView(Context context) {
+    public CHTextSliderView(Context context) {
         super(context);
     }
 

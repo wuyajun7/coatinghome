@@ -10,7 +10,7 @@
         android:layout_height="@dimen/pub_title_height"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res/com.coatinghome"
             android:layout_width="@dimen/pub_title_height"
             android:layout_height="match_parent"
             android:gravity="center">
@@ -22,6 +22,21 @@
                 android:padding="15dp"
                 android:src="@drawable/icon_back"
                 android:visibility="gone" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/user_icon"
+                android:layout_width="@dimen/pub_title_height"
+                android:layout_height="@dimen/pub_title_height"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:padding="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_user_default"
+                app:riv_border_width="0dip"
+                app:riv_corner_radius="100dip"
+                app:riv_mutate_background="false"
+                app:riv_oval="false" />
+
 
         </LinearLayout>
 
@@ -57,13 +72,13 @@
                     android:src="@drawable/icon_search" />
 
                 <TextView
+                    android:id="@+id/find_search_tip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="xxxxxxxxx"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorGray6"
                     android:textSize="@dimen/pub_text_size1" />
 
             </LinearLayout>
@@ -75,13 +90,27 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/find_message"
-                android:layout_width="@dimen/pub_title_height"
-                android:layout_height="@dimen/pub_title_height"
-                android:padding="15dp"
-                android:src="@drawable/icon_message"
-                android:visibility="gone" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="3dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_message" />
+
+                <View
+                    android:id="@+id/find_message_tip_dot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="right|top"
+                    android:background="@drawable/icon_red_dot"
+                    android:visibility="gone" />
+            </FrameLayout>
 
             <ProgressBar
                 android:id="@+id/title_progress"

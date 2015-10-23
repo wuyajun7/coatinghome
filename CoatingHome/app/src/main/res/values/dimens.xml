@@ -17,4 +17,6 @@
     <dimen name="pub_find_item_text1">15sp</dimen>
     <dimen name="pub_find_item_text2">14sp</dimen>
 
+    <dimen name="pub_find_option_text">14sp</dimen>
+
 </resources>

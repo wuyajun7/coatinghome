@@ -11,6 +11,8 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,9 +21,12 @@ import android.widget.Toast;
 
 import com.coatinghome.R;
 import com.coatinghome.activitys.CHWebViewActivity;
+import com.coatinghome.activitys.option.CHPaintActivity;
 import com.coatinghome.adapters.TabFindAdapter;
-import com.coatinghome.customviews.NNTextSliderView;
+import com.coatinghome.adapters.TabFindOptionAdapter;
+import com.coatinghome.customviews.CHTextSliderView;
 import com.coatinghome.models.CHBanner;
+import com.coatinghome.models.CHFindOption;
 import com.coatinghome.models.find.CHFindItem;
 import com.coatinghome.models.find.CHFindItems;
 import com.coatinghome.providers.CHContrat;
@@ -35,7 +40,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import roboguice.inject.InjectView;
 
@@ -61,6 +65,7 @@ public class FragmentFind extends BaseFragment {
     private View bannerLayout;
     private List<CHBanner> chBanners;//banner 数据
 
+    private View listOption;
     private View listItem;
     private View listItemTitle;
 
@@ -135,6 +140,7 @@ public class FragmentFind extends BaseFragment {
         listView.setDividerHeight(0);
 
         listView.addHeaderView(getBannerView());
+        listView.addHeaderView(getOptionsView());
         listView.addHeaderView(getListItemViewType3());
         listView.addHeaderView(getListItemTitle("热门推荐", CHContrat.colours[0]));
         listView.addHeaderView(getListItemViewType1());
@@ -146,6 +152,62 @@ public class FragmentFind extends BaseFragment {
         requestFindData();
 
     }
+
+    /* --------------------------------OPTION START--------------------------------- */
+    private GridView mFindOption;
+    private List<CHFindOption> mHomeOptionsBeans;
+
+    private int[] optionsImg = {
+            R.drawable.find_option_youqi,
+            R.drawable.find_option_tuliao,
+            R.drawable.find_option_pinpai,
+            R.drawable.find_option_tejia
+    };
+    private String[] optionsText = {
+            "油漆",
+            "防水涂料",
+            "品牌专区",
+            "特价专区",
+    };
+    private Class[] optionClazz = {
+            CHPaintActivity.class,
+            CHPaintActivity.class,
+            CHPaintActivity.class,
+            CHPaintActivity.class
+    };
+
+    private View getOptionsView() {
+        if (mLayoutInflater == null) {
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        listOption = mLayoutInflater.inflate(R.layout.view_find_option, null);
+
+        mFindOption = (GridView) listOption.findViewById(R.id.find_option_gv);
+
+        mHomeOptionsBeans = new ArrayList<>();
+        CHFindOption homeOptionsBean;
+        for (int i = 0; i < optionsImg.length; i++) {
+            homeOptionsBean = new CHFindOption(optionsImg[i], optionsText[i]);
+            mHomeOptionsBeans.add(homeOptionsBean);
+        }
+        TabFindOptionAdapter mHomeOptionsAdapter = new TabFindOptionAdapter(mContext,
+                mHomeOptionsBeans,
+                R.layout.view_find_option_item);
+
+        mFindOption.setAdapter(mHomeOptionsAdapter);
+
+        mFindOption.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(mContext, optionClazz[position]);
+                intent.putExtra(CHContrat.ACTIVITY_TITLE_TEXT, optionsText[position]);
+                startActivity(intent);
+            }
+        });
+
+        return listOption;
+    }
+    /* --------------------------------OPTION END--------------------------------- */
 
     /* --------------------------------BANNER START--------------------------------- */
     private View getBannerView() {
@@ -196,7 +258,7 @@ public class FragmentFind extends BaseFragment {
     private void setBannerData(List<CHBanner> response) {
         if (response != null && (response).size() != 0) {//有数据则加载正常数据，无数据加载默认数据
             for (CHBanner nnBanner : response) {
-                NNTextSliderView textSliderView = new NNTextSliderView(mContext);
+                CHTextSliderView textSliderView = new CHTextSliderView(mContext);
                 textSliderView
                         .description("")
                         .image(nnBanner.image_url)
@@ -219,7 +281,7 @@ public class FragmentFind extends BaseFragment {
         public void onSliderClick(BaseSliderView baseSliderView) {
             Bundle bundle = baseSliderView.getBundle();
             Intent intent = new Intent(mContext, CHWebViewActivity.class);
-            intent.putExtra(CHContrat.WEB_TITLE_TEXT, bundle.getString(BANNER_TITLE));
+            intent.putExtra(CHContrat.ACTIVITY_TITLE_TEXT, bundle.getString(BANNER_TITLE));
             intent.putExtra(CHContrat.WEB_URL_PATH, bundle.getString(BANNER_JUMP_URL));
             startActivity(intent);
         }

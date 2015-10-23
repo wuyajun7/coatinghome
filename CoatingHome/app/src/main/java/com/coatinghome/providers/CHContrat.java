@@ -1,5 +1,8 @@
 package com.coatinghome.providers;
 
+import android.text.TextUtils;
+import android.view.View;
+
 import com.coatinghome.R;
 
 /**
@@ -8,8 +11,8 @@ import com.coatinghome.R;
  */
 public class CHContrat {
 
-    /* 网页抬头 */
-    public static final String WEB_TITLE_TEXT = "WEB_TITLE_TEXT";
+    /* 界面抬头 */
+    public static final String ACTIVITY_TITLE_TEXT = "ACTIVITY_TITLE_TEXT";
     /* 网页路径 */
     public static final String WEB_URL_PATH = "WEB_URL_PATH";
     /* 彩色数组 */
@@ -22,6 +25,25 @@ public class CHContrat {
             R.color.colours6,
             R.color.colours7
     };
+
+    public static void showView(View... views) {
+        if (views != null && views.length > 0) {
+            for (View view : views) {
+                view.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public static void hideView(View... views) {
+        if (views != null && views.length > 0) {
+            for (View view : views) {
+                view.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    //---------------------------------- Test Datas
+    public static final String userIcon = "http://diy.qqjay.com/u2/2013/0403/a778f5b0538769ae5e0046a83a4c243c.jpg";
 
     public static final String[] testTitle = {
             "大宝多乐",

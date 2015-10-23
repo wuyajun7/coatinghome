@@ -2,9 +2,12 @@ package com.coatinghome.activitys;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,15 +17,23 @@ import com.coatinghome.R;
 import com.coatinghome.activitys.tab.FragmentFind;
 import com.coatinghome.activitys.tab.FragmentMarket;
 import com.coatinghome.activitys.tab.FragmentMy;
+import com.coatinghome.models.CHUserInfo;
+import com.coatinghome.providers.CHContrat;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import roboguice.activity.RoboActivity;
+import java.util.ArrayList;
+import java.util.List;
+
 import roboguice.inject.InjectView;
 
 /**
  * Created by wuyajun on 15/10/22.
  * Detail: 主页
  */
-public class CHMainActivity extends RoboActivity implements OnClickListener {
+public class CHMainActivity extends CHBaseActivity {
 
     private final int INDEX_FIND = 0;
     private final int INDEX_MARKET = 1;
@@ -49,10 +60,16 @@ public class CHMainActivity extends RoboActivity implements OnClickListener {
     @InjectView(R.id.tab_my_text)
     private TextView mTabTextMy;
 
+    @InjectView(R.id.user_icon)
+    private RoundedImageView mUserIcon;
     @InjectView(R.id.find_search_layout)
     private LinearLayout mFindSearchLayout;
+    @InjectView(R.id.find_search_tip)
+    private TextView mFindSearchTip;
     @InjectView(R.id.find_message)
-    private ImageView mFindMessage;
+    private FrameLayout mFindMessage;
+    @InjectView(R.id.find_message_tip_dot)
+    private View mFindMessageTipDot;
 
     /* 用于对Fragment进行管理 */
     private FragmentManager fragmentManager;
@@ -60,6 +77,16 @@ public class CHMainActivity extends RoboActivity implements OnClickListener {
     private FragmentFind fragmentFind;
     private FragmentMarket fragmentMarket;
     private FragmentMy fragmentMy;
+
+    private DisplayImageOptions mOptions = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .showImageOnLoading(R.drawable.icon_user_default) //设置图片在下载期间显示的图片
+            .showImageForEmptyUri(R.drawable.icon_user_default)//设置图片Uri为空或是错误的时候显示的图片
+            .showImageOnFail(R.drawable.icon_user_default)  //设置图片加载/解码过程中错误时候显示的图片
+            .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+            .build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +104,51 @@ public class CHMainActivity extends RoboActivity implements OnClickListener {
         mTabMy.setOnClickListener(this);
 
         setTabSelection(INDEX_FIND);
+        requestUserInfo();
+    }
+
+    private CHUserInfo userInfo;
+
+    private Handler handler = new Handler();
+
+    private void requestUserInfo() {
+        userInfo = new CHUserInfo();
+
+        userInfo.userId = 1;
+        userInfo.userAdd = "上海";
+        userInfo.userLevel = 3;
+        userInfo.userIcon = CHContrat.userIcon;
+        userInfo.unreadMsg = 5;
+
+        List<String> tip = new ArrayList<>();
+        tip.add("高级防水涂料");
+        tip.add("纳米油漆");
+        tip.add("多乐士");
+        tip.add("建筑涂料");
+        userInfo.searchTip = tip;
+
+        if (!TextUtils.isEmpty(userInfo.userIcon)) {
+            ImageLoader.getInstance().displayImage(userInfo.userIcon, mUserIcon, mOptions);
+        }
+
+        handler.post(new Runnable() {
+            int i = 0;
+
+            @Override
+            public void run() {
+                if (i == userInfo.searchTip.size())
+                    i = 0;
+
+                mFindSearchTip.setText(userInfo.searchTip.get(i++));
+                handler.postDelayed(this, 15000);
+            }
+        });
+
+        if (userInfo.unreadMsg > 0) {
+            CHContrat.showView(mFindMessageTipDot);
+        } else {
+            CHContrat.hideView(mFindMessageTipDot);
+        }
     }
 
     @Override
@@ -103,7 +175,7 @@ public class CHMainActivity extends RoboActivity implements OnClickListener {
         // 重置文本颜色
         resetTextColor();
         // 重置头部布局
-        resetTitleView();
+        CHContrat.hideView(mUserIcon, mFindSearchLayout, mFindMessage);
         // 开启一个Fragment事务
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
@@ -112,8 +184,7 @@ public class CHMainActivity extends RoboActivity implements OnClickListener {
             case INDEX_FIND:
                 mTabBtnFind.setImageResource(R.drawable.tab_find_down);
                 mTabTextFind.setTextColor(getResources().getColor(R.color.colorGray1));
-                mFindSearchLayout.setVisibility(View.VISIBLE);
-                mFindMessage.setVisibility(View.VISIBLE);
+                CHContrat.showView(mUserIcon, mFindSearchLayout, mFindMessage);
                 if (fragmentFind == null) {
                     fragmentFind = new FragmentFind();
                     transaction.add(R.id.id_content, fragmentFind);
@@ -143,12 +214,6 @@ public class CHMainActivity extends RoboActivity implements OnClickListener {
                 break;
         }
         transaction.commit();
-    }
-
-    /* 重置头部布局 */
-    private void resetTitleView() {
-        mFindSearchLayout.setVisibility(View.GONE);
-        mFindMessage.setVisibility(View.GONE);
     }
 
     /* 清除掉所有的btn选中状态 */
