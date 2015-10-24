@@ -19,4 +19,6 @@
 
     <dimen name="pub_find_option_text">14sp</dimen>
 
+    <dimen name="pub_layout_hight1">50dp</dimen>
+
 </resources>

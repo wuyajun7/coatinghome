@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * Created by wuyajun on 15-10-02.
- * <p>
+ * <p/>
  * 配置开关
  */
 public class PropertiesConfig {
@@ -54,6 +54,19 @@ public class PropertiesConfig {
     public String getPackageName() {
         try {
             String packageName = read2WriteProperties.getValue("package.name");
+            if (!TextUtils.isEmpty(packageName)) {
+                return packageName;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /* 获取Bmob ApplicationId */
+    public String getBmobApplicationId() {
+        try {
+            String packageName = read2WriteProperties.getValue("application.id");
             if (!TextUtils.isEmpty(packageName)) {
                 return packageName;
             }

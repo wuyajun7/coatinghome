@@ -15,6 +15,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
+import cn.bmob.v3.Bmob;
+
 /**
  * Created by wuyajun on 15/10/20.
  * Detail:
@@ -46,6 +48,14 @@ public class CHApplication extends Application {
                     .build());
         }
 
+        initPlugIn();
+
+    }
+
+    /* 初始化 第三方 插件 */
+    private void initPlugIn() {
+        // 初始化 Bmob SDK - 第二个参数Application ID
+        Bmob.initialize(this, PropertiesConfig.getInstance(this).getBmobApplicationId());
     }
 
     /* 初始化 ImageLoader */

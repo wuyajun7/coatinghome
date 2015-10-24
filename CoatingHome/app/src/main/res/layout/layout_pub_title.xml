@@ -32,11 +32,11 @@
                 android:padding="8dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/icon_user_default"
+                android:visibility="gone"
                 app:riv_border_width="0dip"
                 app:riv_corner_radius="100dip"
                 app:riv_mutate_background="false"
                 app:riv_oval="false" />
-
 
         </LinearLayout>
 

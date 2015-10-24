@@ -11,4 +11,10 @@
         <item name="android:background">@drawable/icon_red_dot</item>
     </style>
 
+    <style name="CHCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_bg</item>
+        <item name="android:paddingLeft">15.0dip</item>
+        <item name="android:maxHeight">15dp</item>
+        <item name="android:height">15dp</item>
+    </style>
 </resources>

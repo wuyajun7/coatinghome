@@ -6,10 +6,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +18,7 @@ import com.coatinghome.activitys.tab.FragmentFind;
 import com.coatinghome.activitys.tab.FragmentMarket;
 import com.coatinghome.activitys.tab.FragmentMy;
 import com.coatinghome.models.CHUserInfo;
+import com.coatinghome.models.CHUserUnread;
 import com.coatinghome.providers.CHContrat;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -27,6 +28,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.SaveListener;
 import roboguice.inject.InjectView;
 
 /**
@@ -107,28 +110,57 @@ public class CHMainActivity extends CHBaseActivity {
         requestUserInfo();
     }
 
-    private CHUserInfo userInfo;
-
     private Handler handler = new Handler();
 
     private void requestUserInfo() {
-        userInfo = new CHUserInfo();
 
-        userInfo.userId = 1;
-        userInfo.userAdd = "上海";
-        userInfo.userLevel = 3;
-        userInfo.userIcon = CHContrat.userIcon;
-        userInfo.unreadMsg = 5;
+        CHUserInfo userInfo = BmobUser.getCurrentUser(this, CHUserInfo.class);
+        if (userInfo != null) {
+            // 允许用户使用应用
+            setUserDataToViews(userInfo);
+        } else {
+            //缓存用户对象为空时， 可打开用户注册界面…
 
-        List<String> tip = new ArrayList<>();
-        tip.add("高级防水涂料");
-        tip.add("纳米油漆");
-        tip.add("多乐士");
-        tip.add("建筑涂料");
-        userInfo.searchTip = tip;
+            List<String> tip1 = new ArrayList<>();
+            tip1.add("高级防水涂料");
+            tip1.add("纳米油漆");
+            tip1.add("多乐士");
+            tip1.add("建筑涂料");
 
-        if (!TextUtils.isEmpty(userInfo.userIcon)) {
-            ImageLoader.getInstance().displayImage(userInfo.userIcon, mUserIcon, mOptions);
+            final CHUserInfo myUser = new CHUserInfo();
+            myUser.setUsername("test1");
+            myUser.setPassword("111111");
+            myUser.userAge = 18;
+            myUser.userId = 1;
+            myUser.userAdd = "上海";
+            myUser.userLevel = 3;
+            myUser.userIcon = CHContrat.userIcon;
+            myUser.userCompanyAdd = "北京";
+            myUser.userSex = 0;
+            myUser.userCompanyName = "北京油漆分销有限公司";
+            myUser.userCompanyIntro = "北京油漆分销有限公司";
+            myUser.searchTip = tip1;
+            myUser.signUp(this, new SaveListener() {
+
+                @Override
+                public void onSuccess() {
+                    Log.i("ioioippoi", "注册成功:" + myUser.getUsername() + "-"
+                            + myUser.getObjectId() + "-" + myUser.getCreatedAt()
+                            + "-" + myUser.getSessionToken() + ",是否验证：" + myUser.getEmailVerified());
+                }
+
+                @Override
+                public void onFailure(int code, String msg) {
+                    Log.i("ioioippoi", "注册失败:" + msg);
+                }
+            });
+        }
+
+    }
+
+    private void setUserDataToViews(final CHUserInfo bmobUser) {
+        if (!TextUtils.isEmpty(bmobUser.userIcon)) {
+            ImageLoader.getInstance().displayImage(bmobUser.userIcon, mUserIcon, mOptions);
         }
 
         handler.post(new Runnable() {
@@ -136,19 +168,21 @@ public class CHMainActivity extends CHBaseActivity {
 
             @Override
             public void run() {
-                if (i == userInfo.searchTip.size())
+                if (i == bmobUser.searchTip.size())
                     i = 0;
 
-                mFindSearchTip.setText(userInfo.searchTip.get(i++));
+                mFindSearchTip.setText(bmobUser.searchTip.get(i++));
                 handler.postDelayed(this, 15000);
             }
         });
 
-        if (userInfo.unreadMsg > 0) {
-            CHContrat.showView(mFindMessageTipDot);
-        } else {
-            CHContrat.hideView(mFindMessageTipDot);
-        }
+        Log.i("iiooppooii",""+bmobUser.getSessionToken());
+
+//        if (userInfo.unreadMsg > 0) {
+//            CHContrat.showView(mFindMessageTipDot);
+//        } else {
+//            CHContrat.hideView(mFindMessageTipDot);
+//        }
     }
 
     @Override

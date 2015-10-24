@@ -548,7 +548,7 @@ public class FragmentFind extends BaseFragment {
                 mTabFindAdapter.notifyDataSetChanged();
                 mPullToRefreshListView.onRefreshComplete();
             }
-        }, 200);
+        }, 700);
     }
 
 
