@@ -12,7 +12,7 @@ public class CHUserInfo extends BmobUser {
 
     public int userId;               // 用户ID
     public int userAge;              // 用户年龄
-    public int userSex;           // 用户性别
+    public int userSex;              // 用户性别
     public String userAdd;           // 用户地址
     public String userIcon;          // 用户头像
     public int userLevel;            // 用户等级
@@ -20,6 +20,7 @@ public class CHUserInfo extends BmobUser {
     public String userCompanyAdd;    // 用户公司地址
     public String userCompanyIntro;  // 用户公司介绍
 
-    public List<String> searchTip;// 首页搜索框提示
+    public List<String> searchTip;   // 首页搜索框提示
+    public int userUnRead;           // 用户未读消息
 
 }

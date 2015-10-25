@@ -2,9 +2,11 @@ package com.coatinghome.activitys;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,13 +15,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.coatinghome.CHApplication;
 import com.coatinghome.R;
+import com.coatinghome.activitys.account.CHLoginActivity;
 import com.coatinghome.activitys.tab.FragmentFind;
 import com.coatinghome.activitys.tab.FragmentMarket;
 import com.coatinghome.activitys.tab.FragmentMy;
 import com.coatinghome.models.CHUserInfo;
-import com.coatinghome.models.CHUserUnread;
 import com.coatinghome.providers.CHContrat;
+import com.coatinghome.services.online.OnlineDataInfoProvider;
+import com.google.inject.Inject;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,6 +46,9 @@ public class CHMainActivity extends CHBaseActivity {
     private final int INDEX_FIND = 0;
     private final int INDEX_MARKET = 1;
     private final int INDEX_MY = 2;
+
+    @Inject
+    private OnlineDataInfoProvider onlineDataInfoProvider;
 
     @InjectView(R.id.tab_find_layout)
     private LinearLayout mTabFind;
@@ -97,7 +105,17 @@ public class CHMainActivity extends CHBaseActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
+        //Test
+        onlineDataInfoProvider.getStartAdmobData(this, backHandler);
     }
+
+    private Handler backHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            CHApplication.Logs.i("iiiiiiiiiiii", msg.obj.toString());
+        }
+    };
 
     private void initViews() {
         fragmentManager = getFragmentManager();
@@ -113,7 +131,6 @@ public class CHMainActivity extends CHBaseActivity {
     private Handler handler = new Handler();
 
     private void requestUserInfo() {
-
         CHUserInfo userInfo = BmobUser.getCurrentUser(this, CHUserInfo.class);
         if (userInfo != null) {
             // 允许用户使用应用
@@ -140,6 +157,7 @@ public class CHMainActivity extends CHBaseActivity {
             myUser.userCompanyName = "北京油漆分销有限公司";
             myUser.userCompanyIntro = "北京油漆分销有限公司";
             myUser.searchTip = tip1;
+            myUser.userUnRead = 3;
             myUser.signUp(this, new SaveListener() {
 
                 @Override
@@ -176,13 +194,11 @@ public class CHMainActivity extends CHBaseActivity {
             }
         });
 
-        Log.i("iiooppooii",""+bmobUser.getSessionToken());
-
-//        if (userInfo.unreadMsg > 0) {
-//            CHContrat.showView(mFindMessageTipDot);
-//        } else {
-//            CHContrat.hideView(mFindMessageTipDot);
-//        }
+        if (bmobUser.userUnRead > 0) {
+            CHContrat.showView(mFindMessageTipDot);
+        } else {
+            CHContrat.hideView(mFindMessageTipDot);
+        }
     }
 
     @Override
@@ -195,6 +211,7 @@ public class CHMainActivity extends CHBaseActivity {
                 setTabSelection(INDEX_MARKET);
                 break;
             case R.id.tab_my_layout:
+                startActivity(new Intent(CHMainActivity.this, CHLoginActivity.class));
                 setTabSelection(INDEX_MY);
                 break;
             default:

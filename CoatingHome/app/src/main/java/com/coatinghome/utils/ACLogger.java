@@ -8,7 +8,7 @@ import android.util.Log;
 public class ACLogger {
 
     //log 是否打开
-    private final static boolean logFlag = false;
+    private final static boolean logFlag = true;
     //log 前可增加app名称 - 此时暂不增加
     public final static String tags = "";//[AppName]
     private final static int logLevel = Log.VERBOSE;

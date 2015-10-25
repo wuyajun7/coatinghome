@@ -21,6 +21,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <!-- 主页 -->
         <activity
             android:name=".activitys.CHMainActivity"
@@ -49,6 +50,13 @@
         <!-- 注册界面 -->
         <activity
             android:name=".activitys.account.CHRegisterActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"></activity>
+
+        <!-- 登录界面 -->
+        <activity
+            android:name=".activitys.account.CHLoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"></activity>
