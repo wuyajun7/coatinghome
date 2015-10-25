@@ -65,7 +65,7 @@
                         android:textColor="@color/colorGray1" />
 
                     <EditText
-                        android:id="@+id/input_account"
+                        android:id="@+id/login_input_account"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
@@ -97,7 +97,7 @@
                         android:textColor="@color/colorGray1" />
 
                     <EditText
-                        android:id="@+id/input_pw"
+                        android:id="@+id/login_input_pw"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:background="@android:color/transparent"
@@ -129,6 +129,33 @@
                 android:background="@drawable/btn_bg_corners"
                 android:text="登录"
                 android:textColor="@color/colorWhite" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
+            <TextView
+                android:id="@+id/login_forget_pw_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="16dp"
+                android:text="忘记密码？"
+                android:textColor="@color/colorblue1" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="58dp" />
+
+            <TextView
+                android:id="@+id/login_register_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="注册帐号"
+                android:textColor="@color/colorblue1" />
+
         </LinearLayout>
 
     </ScrollView>
