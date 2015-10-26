@@ -106,7 +106,7 @@ public class CHMainActivity extends CHBaseActivity {
 
         initViews();
         //Test
-        onlineDataInfoProvider.getStartAdmobData(this, backHandler);
+//        onlineDataInfoProvider.getStartAdmobData(this, backHandler);
     }
 
     private Handler backHandler = new Handler() {
@@ -211,7 +211,14 @@ public class CHMainActivity extends CHBaseActivity {
                 setTabSelection(INDEX_MARKET);
                 break;
             case R.id.tab_my_layout:
-                startActivity(new Intent(CHMainActivity.this, CHLoginActivity.class));
+                BmobUser.logOut(this);   //清除缓存用户对象
+                BmobUser currentUser = BmobUser.getCurrentUser(this); // 现在的currentUser是null了
+                if (currentUser == null) {
+                    Intent intent = new Intent(CHMainActivity.this, CHLoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    CHApplication.getInstance().exit();
+                }
                 setTabSelection(INDEX_MY);
                 break;
             default:

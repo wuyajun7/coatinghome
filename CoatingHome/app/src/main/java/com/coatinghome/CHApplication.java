@@ -1,5 +1,6 @@
 package com.coatinghome;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
@@ -15,6 +16,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
 
 /**
@@ -24,6 +28,17 @@ import cn.bmob.v3.Bmob;
 public class CHApplication extends Application {
 
     public static ACLogger Logs = ACLogger.kLog();
+
+    private List<Activity> activityList = new LinkedList<Activity>();
+
+    private static CHApplication instance;
+
+    public static CHApplication getInstance() {
+        if (null == instance) {
+            instance = new CHApplication();
+        }
+        return instance;
+    }
 
     @Override
     public void onCreate() {
@@ -79,6 +94,26 @@ public class CHApplication extends Application {
                 .build();
 
         ImageLoader.getInstance().init(config);
+    }
+
+    //添加Activity到容器中
+    public void addActivity(Activity activity) {
+        activityList.add(activity);
+    }
+
+    public void removeActivity(Activity activity) {
+        activityList.remove(activity);
+    }
+
+    public List<Activity> getActivityList() {
+        return activityList;
+    }
+
+    public void exit() {
+        for (Activity activity : activityList) {
+            activity.finish();
+        }
+        //System.exit(0);
     }
 
     @Override

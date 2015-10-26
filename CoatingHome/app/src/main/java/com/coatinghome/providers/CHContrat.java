@@ -11,6 +11,14 @@ import com.coatinghome.R;
  */
 public class CHContrat {
 
+    /* net code */
+    public static final int ONSRCCESS = 200;
+    public static final int ONFAILURE = 100;
+    public static final int ON404 = 404;
+    public static final int ON500 = 500;
+
+    public static final int R_CODE_LOGIN_TO_REGISTER = 0x01;
+
     /* 界面抬头 */
     public static final String ACTIVITY_TITLE_TEXT = "ACTIVITY_TITLE_TEXT";
     /* 网页路径 */

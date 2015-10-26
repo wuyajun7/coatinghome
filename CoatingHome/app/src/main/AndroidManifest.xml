@@ -22,16 +22,26 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <!-- 主页 -->
+        <!-- 闪屏界面 -->
         <activity
-            android:name=".activitys.CHMainActivity"
-            android:label="@string/app_name">
+            android:name=".activitys.CHSplashActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 主页 -->
+        <activity
+            android:name=".activitys.CHMainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"></activity>
 
         <!-- WebView界面 -->
         <activity

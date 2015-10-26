@@ -11,10 +11,21 @@ import android.os.Handler;
 public interface IOnlineDataInfoProvider {
 
     /**
-     * 获取启动页广告
+     * test1
      *
      * @param context
+     * @param backHandler
      */
-    public void getStartAdmobData(Context context, Handler bckHandler);
+    void getTest1(Context context, Handler backHandler);
 
+    void registerAccount(Context context, Handler backHandler);
+
+    /**
+     * 用户登录
+     * @param context
+     * @param backHandler
+     * @param userName
+     * @param userPwd
+     */
+    void apiLogin(Context context, Handler backHandler, String userName, String userPwd);
 }

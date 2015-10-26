@@ -98,11 +98,13 @@
 
                     <EditText
                         android:id="@+id/login_input_pw"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@android:color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
                         android:hint="请输入密码"
-                        android:imeOptions="actionNext"
+                        android:imeActionId="@+id/login"
+                        android:imeActionLabel="请输入密码"
+                        android:imeOptions="actionGo"
                         android:inputType="textPassword"
                         android:singleLine="true"
                         android:textColorHint="@color/colorGray4"
@@ -140,8 +142,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="16dp"
+                android:padding="10dp"
                 android:text="忘记密码？"
-                android:textColor="@color/colorblue1" />
+                android:textColor="@drawable/text_click_color" />
 
             <Space
                 android:layout_width="match_parent"
@@ -153,8 +156,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
+                android:padding="10dp"
                 android:text="注册帐号"
-                android:textColor="@color/colorblue1" />
+                android:textColor="@drawable/text_click_color" />
 
         </LinearLayout>
 
