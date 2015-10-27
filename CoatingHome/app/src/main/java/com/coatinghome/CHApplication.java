@@ -8,6 +8,9 @@ import android.os.StrictMode;
 
 import com.coatinghome.utils.ACLogger;
 import com.coatinghome.utils.PropertiesConfig;
+import com.coatinghome.utils.sharedpreference.AbstractSharedPreference;
+import com.coatinghome.utils.sharedpreference.SPAppInner;
+import com.coatinghome.utils.sharedpreference.SharedPreferenceFactory;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -28,10 +31,10 @@ import cn.bmob.v3.Bmob;
 public class CHApplication extends Application {
 
     public static ACLogger Logs = ACLogger.kLog();
+    public static AbstractSharedPreference asp;
+    private static CHApplication instance;
 
     private List<Activity> activityList = new LinkedList<Activity>();
-
-    private static CHApplication instance;
 
     public static CHApplication getInstance() {
         if (null == instance) {
@@ -71,6 +74,9 @@ public class CHApplication extends Application {
     private void initPlugIn() {
         // 初始化 Bmob SDK - 第二个参数Application ID
         Bmob.initialize(this, PropertiesConfig.getInstance(this).getBmobApplicationId());
+
+        /* 初始化偏好设置帮助类 */
+        asp = SharedPreferenceFactory.getSharedPreference(this, SPAppInner.class);
     }
 
     /* 初始化 ImageLoader */

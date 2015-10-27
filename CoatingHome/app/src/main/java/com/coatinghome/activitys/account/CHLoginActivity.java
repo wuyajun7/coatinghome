@@ -19,8 +19,6 @@ import com.coatinghome.R;
 import com.coatinghome.activitys.CHBaseActivity;
 import com.coatinghome.activitys.CHMainActivity;
 import com.coatinghome.providers.CHContrat;
-import com.coatinghome.services.online.OnlineDataInfoProvider;
-import com.google.inject.Inject;
 
 import roboguice.inject.InjectView;
 
@@ -29,9 +27,6 @@ import roboguice.inject.InjectView;
  * Detail: 登陆界面
  */
 public class CHLoginActivity extends CHBaseActivity {
-
-    @Inject
-    private OnlineDataInfoProvider onlineDataInfoProvider;
 
     @InjectView(R.id.pub_title_view)
     private LinearLayout mPubTitleView;

@@ -1,13 +1,16 @@
 package com.coatinghome.providers;
 
+import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.coatinghome.R;
 
 /**
  * Created by wuyajun on 15/10/22.
- * Detail:公共常量
+ * Detail:公共常量 - Action
  */
 public class CHContrat {
 
@@ -16,6 +19,10 @@ public class CHContrat {
     public static final int ONFAILURE = 100;
     public static final int ON404 = 404;
     public static final int ON500 = 500;
+
+    /* 注册返回码 */
+    public static final int ONREGISTERSRCCESS = 999;
+    public static final int ONREGISTERFAILURE = 111;
 
     public static final int R_CODE_LOGIN_TO_REGISTER = 0x01;
 
@@ -34,6 +41,11 @@ public class CHContrat {
             R.color.colours7
     };
 
+    /**
+     * 显示Views
+     *
+     * @param views
+     */
     public static void showView(View... views) {
         if (views != null && views.length > 0) {
             for (View view : views) {
@@ -42,6 +54,11 @@ public class CHContrat {
         }
     }
 
+    /**
+     * 隐藏Views
+     *
+     * @param views
+     */
     public static void hideView(View... views) {
         if (views != null && views.length > 0) {
             for (View view : views) {
@@ -50,19 +67,34 @@ public class CHContrat {
         }
     }
 
+
+
+
     /**
      * 验证手机格式
+     * 移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
+     * 联通：130、131、132、152、155、156、185、186
+     * 电信：133、153、180、189、（1349卫通）
+     * 总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
      */
     public static boolean isMobileNO(String mobiles) {
-    /*
-    移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
-    联通：130、131、132、152、155、156、185、186
-    电信：133、153、180、189、（1349卫通）
-    总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
-    */
         String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (TextUtils.isEmpty(mobiles)) return false;
         else return mobiles.matches(telRegex);
+    }
+
+    /**
+     * 关闭输入法
+     */
+    public static void closeIme(Context context) {
+        Activity activity = (Activity) context;
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null && activity != null) {
+            if (activity.getCurrentFocus() != null && activity.getCurrentFocus().getWindowToken() != null) {
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken()
+                        , InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     //---------------------------------- Test Datas

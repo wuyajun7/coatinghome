@@ -47,9 +47,6 @@ public class CHMainActivity extends CHBaseActivity {
     private final int INDEX_MARKET = 1;
     private final int INDEX_MY = 2;
 
-    @Inject
-    private OnlineDataInfoProvider onlineDataInfoProvider;
-
     @InjectView(R.id.tab_find_layout)
     private LinearLayout mTabFind;
     @InjectView(R.id.tab_market_layout)

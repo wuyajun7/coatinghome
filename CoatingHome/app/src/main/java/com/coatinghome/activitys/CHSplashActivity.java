@@ -1,14 +1,21 @@
 package com.coatinghome.activitys;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.coatinghome.R;
 import com.coatinghome.activitys.account.CHLoginActivity;
 import com.coatinghome.models.CHUserInfo;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import cn.bmob.v3.BmobUser;
 
@@ -52,6 +59,14 @@ public class CHSplashActivity extends CHBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //透明状态栏
+        if (!setTransparentNotification()) {
+            if (Build.VERSION.SDK_INT >= 19/* Build.VERSION_CODES.KITKAT*/) {
+                window.addFlags(0x04000000/*WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS*/);
+            }
+        }
+
         initAccount();
     }
 

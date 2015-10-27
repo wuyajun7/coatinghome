@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.coatinghome.interfaces.online.IOnlineDataInfoProvider;
+import com.coatinghome.models.CHUserInfo;
 import com.coatinghome.openapi.CHHttpClient;
 import com.coatinghome.openapi.CHPARAMS;
 import com.coatinghome.providers.CHContrat;
@@ -13,10 +14,18 @@ import com.google.inject.Inject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import cn.bmob.v3.AsyncCustomEndpoints;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.RequestSMSCodeListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.VerifySMSCodeListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -82,7 +91,7 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
         try {
             params.put(CHPARAMS.USER_MOBILE, "13122781686");
             params.put(CHPARAMS.USER_PWD, "808080");
-            params.put(CHPARAMS.USER_NAME, "张三");
+            params.put(CHPARAMS.USER_NAME, "13122781686");
             params.put(CHPARAMS.USER_COMPANY_NAME, "上海&&网络科技有限公司");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -132,6 +141,110 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
                 message.what = CHContrat.ONFAILURE;
                 message.setTarget(backHandler);
                 message.sendToTarget();
+            }
+        });
+    }
+
+    /**
+     * 发送验证码到用户手机
+     *
+     * @param context
+     * @param backHandler
+     * @param mobile
+     */
+    @Override
+    public void apiSendSmsCode(Context context, final Handler backHandler, String mobile, final int backCode) {
+        final Message message = Message.obtain();
+
+        BmobSMS.requestSMSCode(context, mobile, CHPARAMS.SMSVALI, new RequestSMSCodeListener() {
+
+
+            @Override
+            public void done(Integer smsId, BmobException ex) {
+                if (ex == null) {//验证码发送成功
+                    message.arg1 = backCode;
+                    message.arg2 = smsId;
+                    message.what = CHContrat.ONSRCCESS;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                } else {
+                    message.arg1 = backCode;
+                    message.arg2 = -1;
+                    message.what = CHContrat.ONFAILURE;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                }
+            }
+        });
+    }
+
+    /**
+     * 检查账户是否注册过
+     *
+     * @param context
+     * @param backHandler
+     * @param mobile
+     */
+    @Override
+    public void apiCheckAccount(Context context, final Handler backHandler, String mobile, final int backCode) {
+        final Message message = Message.obtain();
+
+        BmobQuery<CHUserInfo> query = new BmobQuery<CHUserInfo>();
+        query.addWhereEqualTo(CHPARAMS.USERNAME, mobile);
+        query.findObjects(context, new FindListener<CHUserInfo>() {
+            @Override
+            public void onSuccess(List<CHUserInfo> object) {
+                if (object.size() > 0) {//已注册
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONREGISTERFAILURE;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                } else {//未注册
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONREGISTERSRCCESS;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                }
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+                message.arg1 = backCode;
+                message.what = CHContrat.ONFAILURE;
+                message.setTarget(backHandler);
+                message.sendToTarget();
+            }
+        });
+    }
+
+    /**
+     * 检查验证码
+     *
+     * @param context
+     * @param backHandler
+     * @param mobile
+     * @param smsCode
+     * @param backCode
+     */
+    @Override
+    public void apiCheckSmsCode(Context context, final Handler backHandler, String mobile, int smsCode, final int backCode) {
+        final Message message = Message.obtain();
+
+        BmobSMS.verifySmsCode(context, mobile, String.valueOf(smsCode), new VerifySMSCodeListener() {
+
+            @Override
+            public void done(BmobException ex) {
+                if (ex == null) {//短信验证码已验证成功
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONSRCCESS;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                } else {
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONFAILURE;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                }
             }
         });
     }
