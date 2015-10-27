@@ -84,39 +84,39 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
 
     @Override
     public void registerAccount(Context context, final Handler backHandler) {
-        final Message message = Message.obtain();
-
-        JSONObject params = new JSONObject();
-        //name是上传到云端的参数名称，值是bmob，云端代码可以通过调用request.body.name获取这个值
-        try {
-            params.put(CHPARAMS.USER_MOBILE, "13122781686");
-            params.put(CHPARAMS.USER_PWD, "808080");
-            params.put(CHPARAMS.USER_NAME, "13122781686");
-            params.put(CHPARAMS.USER_COMPANY_NAME, "上海&&网络科技有限公司");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //创建云端代码对象
-        AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-        //异步调用云端代码
-        cloudCode.callEndpoint(context, CHHttpClient.REGISTER_ACCOUNT, params, new CloudCodeListener() {
-
-            //执行成功时调用，返回result对象
-            @Override
-            public void onSuccess(Object result) {
-                message.obj = result.toString();
-                message.setTarget(backHandler);
-                message.sendToTarget();
-            }
-
-            //执行失败时调用
-            @Override
-            public void onFailure(int i, String s) {
-                message.obj = s;
-                message.setTarget(backHandler);
-                message.sendToTarget();
-            }
-        });
+//        final Message message = Message.obtain();
+//
+//        JSONObject params = new JSONObject();
+//        //name是上传到云端的参数名称，值是bmob，云端代码可以通过调用request.body.name获取这个值
+//        try {
+//            params.put(CHPARAMS.USER_MOBILE, "13122781686");
+//            params.put(CHPARAMS.USER_PWD, "808080");
+//            params.put(CHPARAMS.USER_NAME, "13122781686");
+//            params.put(CHPARAMS.USER_COMPANY_NAME, "上海&&网络科技有限公司");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        //创建云端代码对象
+//        AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+//        //异步调用云端代码
+//        cloudCode.callEndpoint(context, CHHttpClient.REGISTER_ACCOUNT, params, new CloudCodeListener() {
+//
+//            //执行成功时调用，返回result对象
+//            @Override
+//            public void onSuccess(Object result) {
+//                message.obj = result.toString();
+//                message.setTarget(backHandler);
+//                message.sendToTarget();
+//            }
+//
+//            //执行失败时调用
+//            @Override
+//            public void onFailure(int i, String s) {
+//                message.obj = s;
+//                message.setTarget(backHandler);
+//                message.sendToTarget();
+//            }
+//        });
     }
 
     @Override
@@ -190,7 +190,7 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
         final Message message = Message.obtain();
 
         BmobQuery<CHUserInfo> query = new BmobQuery<CHUserInfo>();
-        query.addWhereEqualTo(CHPARAMS.USERNAME, mobile);
+        query.addWhereEqualTo(CHPARAMS.MOBILE_PHONE_NUMBER, mobile);
         query.findObjects(context, new FindListener<CHUserInfo>() {
             @Override
             public void onSuccess(List<CHUserInfo> object) {
@@ -227,10 +227,10 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
      * @param backCode
      */
     @Override
-    public void apiCheckSmsCode(Context context, final Handler backHandler, String mobile, int smsCode, final int backCode) {
+    public void apiCheckSmsCode(Context context, final Handler backHandler, String mobile, String smsCode, final int backCode) {
         final Message message = Message.obtain();
 
-        BmobSMS.verifySmsCode(context, mobile, String.valueOf(smsCode), new VerifySMSCodeListener() {
+        BmobSMS.verifySmsCode(context, mobile, smsCode, new VerifySMSCodeListener() {
 
             @Override
             public void done(BmobException ex) {
@@ -247,5 +247,63 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
                 }
             }
         });
+    }
+
+    /**
+     * 注册账户
+     *
+     * @param context
+     * @param backHandler
+     * @param chUserInfo
+     * @param backCode
+     */
+    @Override
+    public void apiRegisterAccount(Context context, final Handler backHandler, CHUserInfo chUserInfo, final int backCode) {
+        final Message message = Message.obtain();
+
+        JSONObject params = new JSONObject();
+        //name是上传到云端的参数名称，值是bmob，云端代码可以通过调用request.body.name获取这个值
+        try {
+            params.put(CHPARAMS.MOBILE_PHONE_NUMBER, chUserInfo.getMobilePhoneNumber());
+            params.put(CHPARAMS.USER_PWD, chUserInfo.getUserPwd());
+            params.put(CHPARAMS.USER_NAME, chUserInfo.getUsername());
+            params.put(CHPARAMS.USER_COMPANY_NAME, chUserInfo.getUserCompanyName());
+
+            //创建云端代码对象
+            AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+            //异步调用云端代码
+            cloudCode.callEndpoint(context, CHHttpClient.API_REGISTER_ACCOUNT, params, new CloudCodeListener() {
+
+                //执行成功时调用，返回result对象
+                @Override
+                public void onSuccess(Object result) {
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONSRCCESS;
+                    message.obj = result.toString();
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                }
+
+                //执行失败时调用
+                @Override
+                public void onFailure(int i, String s) {
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONFAILURE;
+                    message.obj = s;
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            message.arg1 = backCode;
+            message.what = CHContrat.ONFAILURE;
+            message.obj = e.toString();
+            message.setTarget(backHandler);
+            message.sendToTarget();
+        }
+
     }
 }

@@ -6,15 +6,13 @@ package com.coatinghome.openapi;
  */
 public class CHPARAMS {
 
-    public static final String USERNAME = "username";
-
     /* 服务端 短信 模板名称 */
     public static final String SMSVALI = "smsVali";//短信验证
 
-    //test
-    public static final String USER_MOBILE = "user_mobile";
-    public static final String USER_NAME = "user_name";
-    public static final String USER_PWD = "user_pwd";
-    public static final String USER_COMPANY_NAME = "user_company_name";
+    /* 账号注册 - 对应服务端 key */
+    public static final String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
+    public static final String USER_PWD = "userPwd";
+    public static final String USER_NAME = "userName";
+    public static final String USER_COMPANY_NAME = "userCompanyName";
 
 }

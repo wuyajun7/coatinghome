@@ -26,6 +26,9 @@ public class CHContrat {
 
     public static final int R_CODE_LOGIN_TO_REGISTER = 0x01;
 
+    /* 界面间传递手机号 标签 */
+    public static final String RESULT_MOBILE = "RESULT_MOBILE";
+
     /* 界面抬头 */
     public static final String ACTIVITY_TITLE_TEXT = "ACTIVITY_TITLE_TEXT";
     /* 网页路径 */
@@ -68,8 +71,6 @@ public class CHContrat {
     }
 
 
-
-
     /**
      * 验证手机格式
      * 移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
@@ -81,6 +82,30 @@ public class CHContrat {
         String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (TextUtils.isEmpty(mobiles)) return false;
         else return mobiles.matches(telRegex);
+    }
+
+    /**
+     * 验证验证码格式
+     *
+     * @param smsCode
+     * @return
+     */
+    public static boolean isSmsCode(String smsCode) {
+        if (TextUtils.isEmpty(smsCode)) return false;
+        else return smsCode.length() == 6;
+    }
+
+    /**
+     * 验证密码格式
+     * 由数字和字母组成，且长度要在6-15位之间
+     *
+     * @param pwd
+     * @return
+     */
+    public static boolean isPwd(String pwd) {
+        String pwdRegex = "^[0-9a-zA-Z]{6,15}+$";
+        if (TextUtils.isEmpty(pwd)) return false;
+        else return pwd.matches(pwdRegex);
     }
 
     /**

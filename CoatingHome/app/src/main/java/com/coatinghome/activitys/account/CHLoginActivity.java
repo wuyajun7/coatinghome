@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -162,7 +163,11 @@ public class CHLoginActivity extends CHBaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == CHContrat.R_CODE_LOGIN_TO_REGISTER) {
-                //data.getBooleanExtra(TabResActivity.IS_CLOSE_ACTIVITY, false);
+                String mobile = data.getStringExtra(CHContrat.RESULT_MOBILE);
+                if (!TextUtils.isEmpty(mobile)) {
+                    mLoginInputAccount.setText(mobile);
+                    Selection.setSelection(mLoginInputAccount.getText(), mLoginInputAccount.getText().length());
+                }
             }
         }
     }

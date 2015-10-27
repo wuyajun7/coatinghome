@@ -135,67 +135,67 @@ public class CHMainActivity extends CHBaseActivity {
         } else {
             //缓存用户对象为空时， 可打开用户注册界面…
 
-            List<String> tip1 = new ArrayList<>();
-            tip1.add("高级防水涂料");
-            tip1.add("纳米油漆");
-            tip1.add("多乐士");
-            tip1.add("建筑涂料");
-
-            final CHUserInfo myUser = new CHUserInfo();
-            myUser.setUsername("test1");
-            myUser.setPassword("111111");
-            myUser.userAge = 18;
-            myUser.userId = 1;
-            myUser.userAdd = "上海";
-            myUser.userLevel = 3;
-            myUser.userIcon = CHContrat.userIcon;
-            myUser.userCompanyAdd = "北京";
-            myUser.userSex = 0;
-            myUser.userCompanyName = "北京油漆分销有限公司";
-            myUser.userCompanyIntro = "北京油漆分销有限公司";
-            myUser.searchTip = tip1;
-            myUser.userUnRead = 3;
-            myUser.signUp(this, new SaveListener() {
-
-                @Override
-                public void onSuccess() {
-                    Log.i("ioioippoi", "注册成功:" + myUser.getUsername() + "-"
-                            + myUser.getObjectId() + "-" + myUser.getCreatedAt()
-                            + "-" + myUser.getSessionToken() + ",是否验证：" + myUser.getEmailVerified());
-                }
-
-                @Override
-                public void onFailure(int code, String msg) {
-                    Log.i("ioioippoi", "注册失败:" + msg);
-                }
-            });
+//            List<String> tip1 = new ArrayList<>();
+//            tip1.add("高级防水涂料");
+//            tip1.add("纳米油漆");
+//            tip1.add("多乐士");
+//            tip1.add("建筑涂料");
+//
+//            final CHUserInfo myUser = new CHUserInfo();
+//            myUser.setUsername("test1");
+//            myUser.setPassword("111111");
+//            myUser.userAge = 18;
+//            myUser.userId = 1;
+//            myUser.userAdd = "上海";
+//            myUser.userLevel = 3;
+//            myUser.userIcon = CHContrat.userIcon;
+//            myUser.userCompanyAdd = "北京";
+//            myUser.userSex = 0;
+//            myUser.userCompanyName = "北京油漆分销有限公司";
+//            myUser.userCompanyIntro = "北京油漆分销有限公司";
+//            myUser.searchTip = tip1;
+//            myUser.userUnRead = 3;
+//            myUser.signUp(this, new SaveListener() {
+//
+//                @Override
+//                public void onSuccess() {
+//                    Log.i("ioioippoi", "注册成功:" + myUser.getUsername() + "-"
+//                            + myUser.getObjectId() + "-" + myUser.getCreatedAt()
+//                            + "-" + myUser.getSessionToken() + ",是否验证：" + myUser.getEmailVerified());
+//                }
+//
+//                @Override
+//                public void onFailure(int code, String msg) {
+//                    Log.i("ioioippoi", "注册失败:" + msg);
+//                }
+//            });
         }
 
     }
 
     private void setUserDataToViews(final CHUserInfo bmobUser) {
-        if (!TextUtils.isEmpty(bmobUser.userIcon)) {
-            ImageLoader.getInstance().displayImage(bmobUser.userIcon, mUserIcon, mOptions);
+        if (!TextUtils.isEmpty(bmobUser.getUserIcon())) {
+            ImageLoader.getInstance().displayImage(bmobUser.getUserIcon(), mUserIcon, mOptions);
         }
 
-        handler.post(new Runnable() {
-            int i = 0;
+//        handler.post(new Runnable() {
+//            int i = 0;
+//
+//            @Override
+//            public void run() {
+//                if (i == bmobUser.searchTip.size())
+//                    i = 0;
+//
+//                mFindSearchTip.setText(bmobUser.searchTip.get(i++));
+//                handler.postDelayed(this, 15000);
+//            }
+//        });
 
-            @Override
-            public void run() {
-                if (i == bmobUser.searchTip.size())
-                    i = 0;
-
-                mFindSearchTip.setText(bmobUser.searchTip.get(i++));
-                handler.postDelayed(this, 15000);
-            }
-        });
-
-        if (bmobUser.userUnRead > 0) {
-            CHContrat.showView(mFindMessageTipDot);
-        } else {
-            CHContrat.hideView(mFindMessageTipDot);
-        }
+//        if (bmobUser.userUnRead > 0) {
+//            CHContrat.showView(mFindMessageTipDot);
+//        } else {
+//            CHContrat.hideView(mFindMessageTipDot);
+//        }
     }
 
     @Override

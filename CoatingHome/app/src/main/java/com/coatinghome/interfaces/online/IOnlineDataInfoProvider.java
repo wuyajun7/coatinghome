@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 
+import com.coatinghome.models.CHUserInfo;
+
 /**
  * Created by wuyajun on 15/10/22.
  * Detail: 在线数据接口类
@@ -57,6 +59,15 @@ public interface IOnlineDataInfoProvider {
      * @param smsCode
      * @param backCode
      */
-    void apiCheckSmsCode(Context context, Handler backHandler, String mobile, int smsCode, int backCode);
+    void apiCheckSmsCode(Context context, Handler backHandler, String mobile, String smsCode, int backCode);
 
+    /**
+     * 注册账户
+     *
+     * @param context
+     * @param backHandler
+     * @param chUserInfo
+     * @param backCode
+     */
+    void apiRegisterAccount(Context context, Handler backHandler, CHUserInfo chUserInfo, int backCode);
 }
