@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -21,20 +20,15 @@ import com.coatinghome.activitys.account.CHLoginActivity;
 import com.coatinghome.activitys.tab.FragmentFind;
 import com.coatinghome.activitys.tab.FragmentMarket;
 import com.coatinghome.activitys.tab.FragmentMy;
+import com.coatinghome.models.CHSearchTip;
 import com.coatinghome.models.CHUserInfo;
 import com.coatinghome.providers.CHContrat;
-import com.coatinghome.services.online.OnlineDataInfoProvider;
-import com.google.inject.Inject;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.SaveListener;
 import roboguice.inject.InjectView;
 
 /**
@@ -96,6 +90,38 @@ public class CHMainActivity extends CHBaseActivity {
             .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .build();
 
+    private final int BACK_CODE_GET_SEARCH_TIP = 0X01;
+
+    private Handler backHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.arg1) {
+                case BACK_CODE_GET_SEARCH_TIP://获取搜索框热门数据 - 结果
+                    if (msg.what == CHContrat.ONSRCCESS) {
+                        final CHSearchTip chSearchTip = (CHSearchTip) msg.obj;
+                        handler.post(new Runnable() {
+                            int i = 0;
+
+                            @Override
+                            public void run() {
+                                if (i == chSearchTip.getSearchTip().size())
+                                    i = 0;
+
+                                mFindSearchTip.setText(chSearchTip.getSearchTip().get(i++));
+                                handler.postDelayed(this, 15000);
+                            }
+                        });
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,15 +130,34 @@ public class CHMainActivity extends CHBaseActivity {
         initViews();
         //Test
 //        onlineDataInfoProvider.getStartAdmobData(this, backHandler);
+
+//        List<String> tip1 = new ArrayList<>();
+//        tip1.add("高级防水涂料");
+//        tip1.add("纳米油漆");
+//        tip1.add("多乐士");
+//        tip1.add("建筑涂料");
+//        CHSearchTip chSearchTip = new CHSearchTip();
+//        chSearchTip.setSearchTip(tip1);
+//        chSearchTip.save(this, new SaveListener() {
+//            @Override
+//            public void onSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int i, String s) {
+//
+//            }
+//        });
     }
 
-    private Handler backHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            CHApplication.Logs.i("iiiiiiiiiiii", msg.obj.toString());
-        }
-    };
+//    private Handler backHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            CHApplication.Logs.i("iiiiiiiiiiii", msg.obj.toString());
+//        }
+//    };
 
     private void initViews() {
         fragmentManager = getFragmentManager();
@@ -122,7 +167,16 @@ public class CHMainActivity extends CHBaseActivity {
         mTabMy.setOnClickListener(this);
 
         setTabSelection(INDEX_FIND);
+
+        requestSearchTip();
         requestUserInfo();
+    }
+
+    /**
+     * 获取搜索框提示数据
+     */
+    private void requestSearchTip() {
+        onlineDataInfoProvider.apiGetSearchTip(CHMainActivity.this, backHandler, BACK_CODE_GET_SEARCH_TIP);
     }
 
     private Handler handler = new Handler();

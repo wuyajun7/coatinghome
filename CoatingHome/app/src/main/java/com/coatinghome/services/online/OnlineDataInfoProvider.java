@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.coatinghome.interfaces.online.IOnlineDataInfoProvider;
+import com.coatinghome.models.CHSearchTip;
 import com.coatinghome.models.CHUserInfo;
 import com.coatinghome.openapi.CHHttpClient;
 import com.coatinghome.openapi.CHPARAMS;
@@ -23,6 +24,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 import cn.bmob.v3.listener.RequestSMSCodeListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.VerifySMSCodeListener;
@@ -305,5 +307,48 @@ public class OnlineDataInfoProvider implements IOnlineDataInfoProvider {
             message.sendToTarget();
         }
 
+    }
+
+    /**
+     * 获取搜索热门数据
+     *
+     * @param context
+     * @param backHandler
+     */
+    @Override
+    public void apiGetSearchTip(Context context, final Handler backHandler, final int backCode) {
+        final Message message = Message.obtain();
+
+        BmobQuery<CHSearchTip> query = new BmobQuery<CHSearchTip>();
+        query.setLimit(5);
+        query.order("-tipId");// 降序排列
+        query.findObjects(context, new FindListener<CHSearchTip>() {
+
+            @Override
+            public void onSuccess(List<CHSearchTip> list) {
+                if (list.size() > 0) {
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONSRCCESS;
+                    message.obj = list.get(0);
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                } else {
+                    message.arg1 = backCode;
+                    message.what = CHContrat.ONFAILURE;
+                    message.obj = "暂无热门搜索！";
+                    message.setTarget(backHandler);
+                    message.sendToTarget();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                message.arg1 = backCode;
+                message.what = CHContrat.ONFAILURE;
+                message.obj = s;
+                message.setTarget(backHandler);
+                message.sendToTarget();
+            }
+        });
     }
 }

@@ -70,4 +70,12 @@ public interface IOnlineDataInfoProvider {
      * @param backCode
      */
     void apiRegisterAccount(Context context, Handler backHandler, CHUserInfo chUserInfo, int backCode);
+
+    /**
+     * 获取搜索热门数据
+     *
+     * @param context
+     * @param backHandler
+     */
+    void apiGetSearchTip(Context context, Handler backHandler, int backCode);
 }
